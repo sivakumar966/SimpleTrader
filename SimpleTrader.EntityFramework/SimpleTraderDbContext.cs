@@ -6,23 +6,20 @@ using System.Text;
 
 namespace SimpleTrader.EntityFramework
 {
-    public   class SimpleTraderDbContext: DbContext
+    public class SimpleTraderDbContext : DbContext
     {
+
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AssetTransaction> AssetTransactions { get; set; }
 
+        public SimpleTraderDbContext(DbContextOptions options) : base(options) { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AssetTransaction>().OwnsOne(s => s.Stock);
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("server=127.0.0.1\\SQLEXPRESS;database=SimpleTraderDb;user=sa;password=Siva@123");
-
-            base.OnConfiguring(optionsBuilder);
-        }
     }
 }
